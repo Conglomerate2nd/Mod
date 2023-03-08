@@ -1354,7 +1354,14 @@ ID_INLINE void idAI::ForceTacticalUpdate ( void ) {
 	delete aasFind;
 	aasFind = NULL;
 }	
-
+/*
+void SpawnAlly(idEntity ent) {
+	if (ent.GetClassname() == "rvMonster_" && ent.health <= 0) {
+		rvAITactical ally;
+		ally.Spawn();
+	}
+}
+*/
 /*
 ===============================================================================
 

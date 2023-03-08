@@ -8952,6 +8952,8 @@ void idPlayer::GetAASLocation( idAAS *aas, idVec3 &pos, int &areaNum ) const {
 idPlayer::Move
 ==============
 */
+
+//SHORTCUT SEARCH:MOVE
 void idPlayer::Move( void ) {
 	float newEyeOffset;
 	idVec3 oldOrigin;
@@ -14078,3 +14080,13 @@ int idPlayer::CanSelectWeapon(const char* weaponName)
 }
 
 // RITUAL END
+
+//Custom Functions Movement
+void idPlayer::BackStep() {
+	//look for physics set velocity
+	//z is up
+	idVec3 neworigin;
+	neworigin = physicsObj.GetOrigin() + idVec3(-4, 0, 0);
+	physicsObj.SetOrigin(neworigin);
+}
+

@@ -3,6 +3,7 @@
 #pragma hdrstop
 
 #include "../Game_local.h"
+#include "AI_Tactical.h"
 
 class rvMonsterTurretFlying : public idAI {
 public:
@@ -237,6 +238,9 @@ rvMonsterTurretFlying::State_Killed
 stateResult_t rvMonsterTurretFlying::State_Killed ( const stateParms_t& parms ) {
 	gameLocal.PlayEffect ( spawnArgs, "fx_death", GetPhysics()->GetOrigin(), (-GetPhysics()->GetGravityNormal()).ToMat3() );
 	gameLocal.ProjectDecal( GetPhysics()->GetOrigin(), GetPhysics()->GetGravity(), 128.0f, true, 96.0f, "textures/decals/genericdamage" );
+	//Added Lines BEGIN
+	//SpawnAlly();
+	//Added Lines END
 	return idAI::State_Killed ( parms );
 }
 	

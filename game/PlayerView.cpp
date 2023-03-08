@@ -515,7 +515,7 @@ void idPlayerView::SingleView( idUserInterface *hud, const renderView_t *view, i
 	}
 
 	// draw screen blobs
-	if ( !pm_thirdPerson.GetBool() && !g_skipViewEffects.GetBool() ) {
+	if ( !g_skipViewEffects.GetBool() ) {//if ( pm_thirdPerson.GetBool() && !g_skipViewEffects.GetBool() ) {
 		for ( int i = 0 ; i < MAX_SCREEN_BLOBS ; i++ ) {
 			screenBlob_t	*blob = &screenBlobs[i];
 			if ( blob->finishTime <= gameLocal.time ) {
@@ -782,3 +782,11 @@ void idPlayerView::RenderPlayerView( idUserInterface *hud ) {
 }
 
 // RAVEN END
+// 
+// 
+//Custom Func
+void idPlayerView::SwitchPlayerView(idUserInterface* hud) {
+	if (pm_thirdPerson.GetBool()) {
+		pm_thirdPerson.SetBool("0");
+	}else pm_thirdPerson.SetBool("1");
+}

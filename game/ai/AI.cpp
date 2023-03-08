@@ -5149,3 +5149,10 @@ bool idAI::CheckDeathCausesMissionFailure( void )
 	}
 	return false;
 }
+
+void SpawnAlly(idEntity ent) {
+	if (ent.GetClassname()=="rvMonster_"&& ent.health<=0) {
+			rvAITactical ally;
+			ally.Spawn();
+		}
+}

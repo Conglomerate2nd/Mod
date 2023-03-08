@@ -108,7 +108,7 @@ bool rvWeaponBlaster::UpdateAttack ( void ) {
 		if ( fireHeldTime == 0 ) {		
 			nextAttackTime = gameLocal.time + (fireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
 			fireHeldTime   = gameLocal.time;
-			viewModel->SetShaderParm ( BLASTER_SPARM_CHARGEGLOW, chargeGlow[0] );
+			viewModel->SetShaderParm ( BLASTER_SPARM_CHARGEGLOW, chargeGlow[3] );//originally 2
 		}
 	}		
 
@@ -150,7 +150,7 @@ void rvWeaponBlaster::Spawn ( void ) {
 	SetState ( "Raise", 0 );
 	
 	chargeGlow   = spawnArgs.GetVec2 ( "chargeGlow" );
-	chargeTime   = SEC2MS ( spawnArgs.GetFloat ( "chargeTime" ) );
+	chargeTime	 = SEC2MS ( spawnArgs.GetFloat ( "chargeTime" ) );
 	chargeDelay  = SEC2MS ( spawnArgs.GetFloat ( "chargeDelay" ) );
 
 	fireHeldTime		= 0;
@@ -336,7 +336,7 @@ stateResult_t rvWeaponBlaster::State_Charge ( const stateParms_t& parms ) {
 	};	
 	switch ( parms.stage ) {
 		case CHARGE_INIT:
-			viewModel->SetShaderParm ( BLASTER_SPARM_CHARGEGLOW, chargeGlow[0] );
+			viewModel->SetShaderParm ( BLASTER_SPARM_CHARGEGLOW, chargeGlow[2] );
 			StartSound ( "snd_charge", SND_CHANNEL_ITEM, 0, false, NULL );
 			PlayCycle( ANIMCHANNEL_ALL, "charging", parms.blendFrames );
 			return SRESULT_STAGE ( CHARGE_WAIT );

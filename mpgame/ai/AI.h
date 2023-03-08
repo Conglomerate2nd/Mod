@@ -479,6 +479,8 @@ public:
 	virtual bool			IsCrouching						( void ) const;
 
 
+
+
 public:
 
 	idLinkList<idAI>		simpleThinkNode;
@@ -1172,6 +1174,8 @@ private:
 									States
 	===============================================================================
 	*/
+
+	
 
 protected:
 

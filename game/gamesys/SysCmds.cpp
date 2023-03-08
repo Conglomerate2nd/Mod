@@ -26,7 +26,7 @@
 // RAVEN END
 
 #ifdef _WIN32
-#include "TypeInfo.h"
+#include "TypeInfo"
 #else
 #include "NoGameTypeInfo.h"
 #endif
@@ -171,7 +171,7 @@ void Cmd_ListSpawnArgs_f( const idCmdArgs &args ) {
 
 	for ( i = 0; i < ent->spawnArgs.GetNumKeyVals(); i++ ) {
 		const idKeyValue *kv = ent->spawnArgs.GetKeyVal( i );
-		gameLocal.Printf( "\"%s\"  "S_COLOR_WHITE"\"%s\"\n", kv->GetKey().c_str(), kv->GetValue().c_str() );
+		gameLocal.Printf( "\"%s\"  " S_COLOR_WHITE "\"%s\"\n", kv->GetKey().c_str(), kv->GetValue().c_str() );
 	}
 }
 
@@ -3038,6 +3038,53 @@ void Cmd_ClientOverflowReliable_f( const idCmdArgs& args ) {
 }
 #endif
 
+//Custom CMD FUNC
+#ifndef _GAME_PLAYER_H
+
+void Cmd_BackStep_f(const idCmdArgs& args) {
+	//look for physics set velocity
+	//z is up
+
+	/*
+	if ( pfl.jump ) {
+		loggedAccel_t	*acc = &loggedAccel[currentLoggedAccel&(NUM_LOGGED_ACCELS-1)];
+		currentLoggedAccel++;
+		acc->time = gameLocal.time;
+		acc->dir[2] = 200;
+		acc->dir[0] = acc->dir[1] = 0;
+
+
+		float newEyeOffset;
+	idVec3 oldOrigin;
+	idVec3 oldVelocity;
+	idVec3 pushVelocity;
+
+	// save old origin and velocity for crashlanding
+	oldOrigin = physicsObj.GetOrigin();
+	oldVelocity = physicsObj.GetLinearVelocity();
+	pushVelocity = physicsObj.GetPushedLinearVelocity();
+	*/
+	
+	idPlayer* player = gameLocal.GetLocalPlayer();
+	idAngles Looking = player->viewAngles;
+	idVec3 playerFacing = Looking.ToForward();
+	idVec3 origin = player->GetPhysics()->GetOrigin();
+	idVec3 distance = idVec3(0,0,0);
+	gameLocal.Printf("this is yaw %f", Looking.yaw);
+	float yaw = idMath::AngleNormalize180(playerFacing.ToAngles()[YAW]);
+	gameLocal.Printf("this is yaw %f", yaw);
+	/*
+	if("Legs_Jump"|| "Legs_Fall") {
+		distance = idVec3(10* tan(Looking.yaw), 10* tan(Looking.yaw), 0);
+	}else{ distance = idVec3(-10 * tan(Looking.yaw), -10 * tan(Looking.yaw), 0); }
+	*/
+	distance = idVec3(10 * tan(yaw+180), 10 * tan(yaw+180), 0);
+	player->SetOrigin(idVec3(origin.x,origin.y, origin.z ));
+	idVec3 neworigin = origin - distance;
+	player->SetOrigin(neworigin);
+}
+#endif
+
 /*
 =================
 idGameLocal::InitConsoleCommands
@@ -3232,7 +3279,8 @@ void idGameLocal::InitConsoleCommands( void ) {
 	cmdSystem->AddCommand( "buyMenu",				Cmd_ToggleBuyMenu_f,		CMD_FL_GAME,				"Toggle buy menu (if in a buy zone and the game type supports it)" );
 	cmdSystem->AddCommand( "buy",					Cmd_BuyItem_f,				CMD_FL_GAME,				"Buy an item (if in a buy zone and the game type supports it)" );
 // RITUAL END
-
+//Custom
+	cmdSystem->AddCommand("backStep",				Cmd_BackStep_f,			CMD_FL_GAME,				"Backstep in game");
 }
 
 /*
