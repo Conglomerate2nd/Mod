@@ -388,6 +388,7 @@ idPlayerView::WeaponFireFeedback
 Called when a weapon fires, generates head twitches, etc
 ==================
 */
+//SHORTCUT KICKBACK
 void idPlayerView::WeaponFireFeedback( const idDict *weaponDef ) {
 	int		recoilTime;
 

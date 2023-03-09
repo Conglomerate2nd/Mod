@@ -30,6 +30,7 @@
 #else
 #include "NoGameTypeInfo.h"
 #endif
+using namespace idPlayer;
 
 /*
 ==================
@@ -3066,22 +3067,33 @@ void Cmd_BackStep_f(const idCmdArgs& args) {
 	*/
 	
 	idPlayer* player = gameLocal.GetLocalPlayer();
-	idAngles Looking = player->viewAngles;
-	idVec3 playerFacing = Looking.ToForward();
+	idPlayerView* playerView;
+	//idAngles Looking = playerView->kickAngles;
+	//idVec3 playerFacing = Looking.ToForward();
 	idVec3 origin = player->GetPhysics()->GetOrigin();
 	idVec3 distance = idVec3(0,0,0);
+	idDict weapon = 
+
+	playerView->WeaponFireFeedback();
+	/*
 	gameLocal.Printf("this is yaw %f", Looking.yaw);
 	float yaw = idMath::AngleNormalize180(playerFacing.ToAngles()[YAW]);
 	gameLocal.Printf("this is yaw %f", yaw);
+	*/
+
 	/*
 	if("Legs_Jump"|| "Legs_Fall") {
 		distance = idVec3(10* tan(Looking.yaw), 10* tan(Looking.yaw), 0);
 	}else{ distance = idVec3(-10 * tan(Looking.yaw), -10 * tan(Looking.yaw), 0); }
 	*/
+
+	/*
 	distance = idVec3(10 * tan(yaw+180), 10 * tan(yaw+180), 0);
 	player->SetOrigin(idVec3(origin.x,origin.y, origin.z ));
 	idVec3 neworigin = origin - distance;
 	player->SetOrigin(neworigin);
+	*/
+
 }
 #endif
 
