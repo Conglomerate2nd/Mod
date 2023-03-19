@@ -3,6 +3,7 @@
 
 #include "../Game_local.h"
 #include "../Weapon.h"
+//#include "../WeaponBlaster.cpp"
 
 #define BLASTER_SPARM_CHARGEGLOW		6
 
@@ -74,6 +75,7 @@ bool rvWeaponBlasterUP::UpdateFlashlight(void) {
 rvWeaponBlasterUP::Flashlight
 ================
 */
+
 void rvWeaponBlasterUP::Flashlight(bool on) {
 	owner->Flashlight(on);
 
@@ -490,3 +492,5 @@ stateResult_t rvWeaponBlasterUP::State_Flashlight(const stateParms_t& parms) {
 	}
 	return SRESULT_ERROR;
 }
+
+

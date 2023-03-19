@@ -30,7 +30,7 @@
 #else
 #include "NoGameTypeInfo.h"
 #endif
-using namespace idPlayer;
+//using namespace idPlayer;
 
 /*
 ==================
@@ -3043,6 +3043,7 @@ void Cmd_ClientOverflowReliable_f( const idCmdArgs& args ) {
 #ifndef _GAME_PLAYER_H
 
 void Cmd_BackStep_f(const idCmdArgs& args) {
+	/*
 	//look for physics set velocity
 	//z is up
 
@@ -3065,16 +3066,17 @@ void Cmd_BackStep_f(const idCmdArgs& args) {
 	oldVelocity = physicsObj.GetLinearVelocity();
 	pushVelocity = physicsObj.GetPushedLinearVelocity();
 	*/
-	
+	/*
 	idPlayer* player = gameLocal.GetLocalPlayer();
 	idPlayerView* playerView;
-	//idAngles Looking = playerView->kickAngles;
-	//idVec3 playerFacing = Looking.ToForward();
+	idAngles Looking = playerView->RenderPlayerView();
+	idVec3 playerFacing = Looking.ToForward();
 	idVec3 origin = player->GetPhysics()->GetOrigin();
 	idVec3 distance = idVec3(0,0,0);
-	idDict weapon = 
+	*/
+	//idDict weapon = 
 
-	playerView->WeaponFireFeedback();
+	//playerView->WeaponFireFeedback();
 	/*
 	gameLocal.Printf("this is yaw %f", Looking.yaw);
 	float yaw = idMath::AngleNormalize180(playerFacing.ToAngles()[YAW]);
@@ -3086,15 +3088,25 @@ void Cmd_BackStep_f(const idCmdArgs& args) {
 		distance = idVec3(10* tan(Looking.yaw), 10* tan(Looking.yaw), 0);
 	}else{ distance = idVec3(-10 * tan(Looking.yaw), -10 * tan(Looking.yaw), 0); }
 	*/
-
 	/*
-	distance = idVec3(10 * tan(yaw+180), 10 * tan(yaw+180), 0);
+	
+	distance = idVec3(10 * tan(Looking.yaw+180), 10 * tan(yaw+180), 0);
 	player->SetOrigin(idVec3(origin.x,origin.y, origin.z ));
 	idVec3 neworigin = origin - distance;
 	player->SetOrigin(neworigin);
+	
 	*/
-
+	
+	
 }
+/*
+void Cmd_ThirdView_f(idUserInterface* hud) {
+	if (pm_thirdPerson.GetBool()) {
+		pm_thirdPerson.SetBool("0");
+	}
+	else pm_thirdPerson.SetBool("1");
+}
+*/
 #endif
 
 /*
@@ -3293,6 +3305,7 @@ void idGameLocal::InitConsoleCommands( void ) {
 // RITUAL END
 //Custom
 	cmdSystem->AddCommand("backStep",				Cmd_BackStep_f,			CMD_FL_GAME,				"Backstep in game");
+	//cmdSystem->AddCommand("ViewThird",				idPlayerView::Cmd_ThirdView_f, CMD_FL_GAME, "Change to third");
 }
 
 /*

@@ -786,7 +786,7 @@ void idPlayerView::RenderPlayerView( idUserInterface *hud ) {
 // 
 // 
 //Custom Func
-void idPlayerView::SwitchPlayerView(idUserInterface* hud) {
+void idPlayerView::Cmd_ThirdView_f(idUserInterface* hud) {
 	if (pm_thirdPerson.GetBool()) {
 		pm_thirdPerson.SetBool("0");
 	}else pm_thirdPerson.SetBool("1");

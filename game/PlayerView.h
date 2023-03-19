@@ -138,7 +138,7 @@ private:
 	renderView_t		view;
 
 	//Custom
-	void		SwitchPlayerView(idUserInterface* hud);
+	void		Cmd_ThirdView_f(idUserInterface* hud);
 };
 
 #endif /* !__GAME_PLAYERVIEW_H__ */

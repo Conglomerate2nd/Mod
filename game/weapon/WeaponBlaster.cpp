@@ -3,6 +3,7 @@
 
 #include "../Game_local.h"
 #include "../Weapon.h"
+#include "../player.h"
 
 #define BLASTER_SPARM_CHARGEGLOW		6
 
@@ -41,6 +42,7 @@ private:
 	stateResult_t		State_Fire				( const stateParms_t& parms );
 	stateResult_t		State_Flashlight		( const stateParms_t& parms );
 	
+	void				Upgrade(void);
 	CLASS_STATES_PROTOTYPE ( rvWeaponBlaster );
 };
 
@@ -157,6 +159,7 @@ void rvWeaponBlaster::Spawn ( void ) {
 	fireForced			= false;
 			
 	Flashlight ( owner->IsFlashlightOn() );
+	//Upgrade();
 }
 
 /*
@@ -237,6 +240,7 @@ stateResult_t rvWeaponBlaster::State_Raise( const stateParms_t& parms ) {
 		RAISE_INIT,
 		RAISE_WAIT,
 	};	
+	//Upgrade();
 	switch ( parms.stage ) {
 		case RAISE_INIT:			
 			SetStatus ( WP_RISING );
@@ -268,6 +272,7 @@ stateResult_t rvWeaponBlaster::State_Lower ( const stateParms_t& parms ) {
 		LOWER_WAIT,
 		LOWER_WAITRAISE
 	};	
+	//Upgrade();
 	switch ( parms.stage ) {
 		case LOWER_INIT:
 			SetStatus ( WP_LOWERING );
@@ -301,6 +306,7 @@ stateResult_t rvWeaponBlaster::State_Idle ( const stateParms_t& parms ) {
 		IDLE_INIT,
 		IDLE_WAIT,
 	};	
+	//Upgrade();
 	switch ( parms.stage ) {
 		case IDLE_INIT:			
 			SetStatus ( WP_READY );
@@ -334,6 +340,7 @@ stateResult_t rvWeaponBlaster::State_Charge ( const stateParms_t& parms ) {
 		CHARGE_INIT,
 		CHARGE_WAIT,
 	};	
+	//Upgrade();
 	switch ( parms.stage ) {
 		case CHARGE_INIT:
 			viewModel->SetShaderParm ( BLASTER_SPARM_CHARGEGLOW, chargeGlow[2] );
@@ -372,6 +379,7 @@ stateResult_t rvWeaponBlaster::State_Charged ( const stateParms_t& parms ) {
 		CHARGED_INIT,
 		CHARGED_WAIT,
 	};	
+	//Upgrade();
 	switch ( parms.stage ) {
 		case CHARGED_INIT:		
 			viewModel->SetShaderParm ( BLASTER_SPARM_CHARGEGLOW, 1.0f  );
@@ -402,6 +410,7 @@ stateResult_t rvWeaponBlaster::State_Fire ( const stateParms_t& parms ) {
 		FIRE_INIT,
 		FIRE_WAIT,
 	};	
+	Upgrade();
 	switch ( parms.stage ) {
 		case FIRE_INIT:	
 
@@ -484,4 +493,50 @@ stateResult_t rvWeaponBlaster::State_Flashlight ( const stateParms_t& parms ) {
 			return SRESULT_DONE;
 	}
 	return SRESULT_ERROR;
+}
+
+//int shot=0;
+
+void rvWeaponBlaster::Upgrade() {
+	
+	int required = 1;
+	int killed = 0;
+	
+	float cooldown = gameLocal.time+5000;
+	bool triggered = true;
+	//idProjectile* projectile;
+
+
+	/**
+	idEntityPtr<idEntity>	owner;
+	idEntity* enemy= static_cast<idAI*>(owner.GetEntity())->GetEnemy();
+	idPlayer player;
+	player.DamageFeedback(enemy,owner,fireRate);
+
+
+	*/
+
+
+	if ( triggered) {
+
+		/*
+		if (enemy->health<= 0) {
+			killed++;
+			//enemy = static_cast<idAI*>(owner.GetEntity())->GetEnemy();
+		}
+
+		if (killed >= required) {
+		*/
+		if (cooldown<=gameLocal.time) {
+			
+			chargeDelay = 0;
+			fireRate = 0;
+			chargeTime = 0;
+			
+			triggered = false;
+			//rvWeaponBlaster::Spawn();
+		}
+
+	}
+	//shot++;
 }

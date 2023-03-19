@@ -3934,6 +3934,18 @@ void idPlayer::WeaponFireFeedback( const idDict *weaponDef ) {
 
 	// play the fire animation
 	pfl.weaponFired = true;
+	/*
+	idEntityPtr<idEntity>	owner;
+	idEntity* enemy = static_cast<idAI*>(owner.GetEntity())->GetEnemy();
+
+	if (enemy->health<=0) {
+	//if (weaponDef->GetString("classname") == "rvWeaponBlaster") {
+		weapon->fireRate = 0;
+		weapon->chargeTime = 0;
+		weapon->chargeDelay = 0;
+	}*/
+	
+
 
 	// Bias the intent direction more heavily due to firing
 	BiasIntentDir( viewAxis[0]*100.0f, 1.0f );
@@ -3941,6 +3953,8 @@ void idPlayer::WeaponFireFeedback( const idDict *weaponDef ) {
 	// update view feedback
 	playerView.WeaponFireFeedback( weaponDef );
 }
+
+
 
 /*
 ===============
@@ -9161,6 +9175,8 @@ idPlayer::UpdateHud
 ==============
 */
 void idPlayer::UpdateHud( void ) {
+
+	
 	if ( !hud ) {
 		return;
 	}
@@ -9182,6 +9198,8 @@ void idPlayer::UpdateHud( void ) {
  	} else {
  		hud->SetStateString( "hudLag", "0" );
  	}
+	timerMaker(hud);
+	//UpdateHudTimer(hud);
 }
 
 /*
@@ -12951,7 +12969,12 @@ idPlayer::Flashlight
 void idPlayer::Flashlight ( bool on ) {
 	flashlightOn = on;	
 }
+//Custom SET TO ZERO Function
 
+int  zeroMaker;
+int SetToZero() {
+	return 0;
+}
 /*
 ================
 idPlayer::DamageFeedback
@@ -12959,11 +12982,21 @@ idPlayer::DamageFeedback
 */
 void idPlayer::DamageFeedback( idEntity *victim, idEntity *inflictor, int &damage ) {
 	
+
+	if (victim->health - damage <= 0) {
+		physicsObj.SetMaxStepHeight(pm_stepsize.GetFloat()*20);
+		physicsObj.SetMaxJumpHeight(pm_jumpheight.GetFloat()*20);
+		//SetWeapon(4);
+		GiveWeaponMod("WeaponNapalmGun");
+		printf("Check Feedback");
+	}
 	//rvTramCars weren't built on the idActor inheritance hierarchy but need to be treated like one when shot.
 	//TODO: Maybe add a key to entity flags that will allow them to be shot as actors even if they aren't actors?
 	if( !victim || ( !victim->IsType( idActor::GetClassType() ) && !victim->IsType( rvTramCar::GetClassType() ) ) || victim->health <= 0 ) {
 		return;
 	}
+
+
 
 	bool armorHit = false;
 
@@ -13071,6 +13104,7 @@ will be displayed on the HUD
 */
 void idPlayer::StartBossBattle ( idEntity* enemy ) {
 	bossEnemy = enemy;
+
 	idUserInterface *hud_ = GetHud();
 	if ( hud_ ) {
 		hud_->SetStateInt ( "boss_maxhealth", enemy->health );
@@ -14090,3 +14124,87 @@ void idPlayer::BackStep() {
 	physicsObj.SetOrigin(neworigin);
 }
 
+int minute = 0;
+int second = 0;
+int check = 0;
+
+void idPlayer::timerMaker(idUserInterface* hud) {
+	//char* timer="";// = "%f:%f";
+	//char* min;
+	//char* sec;
+	hud->SetStateInt("timer", minute);
+	hud->SetStateInt("timer2", second);
+	hud->SetStateInt("timer3", gameLocal.GetTime());
+
+
+	if (gameLocal.GetTime() - check > 1000) {
+		check = gameLocal.GetTime();
+		second = second + 1;
+		if (second == 60) {
+			minute = minute + 1;
+			second = 0;
+		}
+	}
+	
+	//timer = "%i:%i",minute, second;
+	
+
+	
+	//float timer = gameLocal.time * 1000;
+	//int timer = 10;
+	assert(hud);
+	//idUserInterface* hud = idPlayer::hud;
+	//gameLocal.GetLocalPlayer()->hud->SetStateInt("timer", timer);
+	//hud = gameLocal.GetDemoHud();
+	//hud->SetStateInt("timer", timer);
+	hud->SetStateInt("timer1", minute);
+	hud->SetStateInt("timer2", second);
+	hud->SetStateInt("timer3", gameLocal.GetTime());
+	DrawHUD(hud);
+
+}
+//p_tourntop
+/*
+================
+idMultiplayerGame::UpdateHud
+================
+*/
+/*
+void idPlayer::UpdateHudTimer(idUserInterface* _mphud) {
+	idPlayer* localPlayer;
+
+	if (!_mphud) {
+		return;
+	}
+
+	// server demos don't have a true local player, but need one for hud updates
+	localPlayer = gameLocal.GetLocalPlayer();
+	if (!localPlayer) {
+		assert(gameLocal.GetDemoState() == DEMO_PLAYING && gameLocal.IsServerDemo());
+		assert(gameLocal.GetDemoFollowClient() >= 0);
+		assert(gameLocal.entities[gameLocal.GetDemoFollowClient()] && gameLocal.entities[gameLocal.GetDemoFollowClient()]->IsType(idPlayer::GetClassType()));
+		localPlayer = static_cast<idPlayer*>(gameLocal.entities[gameLocal.GetDemoFollowClient()]);
+	}
+
+	//RAVEN BEGIN
+	//asalmon: Turn on/off the lag icon so that clients know that they are losing connection
+	if (networkSystem->ClientGetTimeSinceLastPacket() > 0 && (networkSystem->ClientGetTimeSinceLastPacket() > cvarSystem->GetCVarInteger("net_clientServerTimeout") * 500)) {
+		_mphud->SetStateBool("IsLagged", true);
+	}
+	else {
+		_mphud->SetStateBool("IsLagged", false);
+	}
+	//RAVEN END
+	
+	_mphud->SetStateInt("marine_score", teamScore[TEAM_MARINE]);
+	_mphud->SetStateInt("strogg_score", teamScore[TEAM_STROGG]);
+	
+	//int timeLimit = gameLocal.serverInfo.GetInt("si_timeLimit");
+
+	// Always show GameTime() for WARMUP and COUNTDOWN.
+	//GameState_t state = gameState->GetGameState();
+	_mphud->SetStateString("timeleft", );
+
+	// RITUAL BEGIN
+}
+*/

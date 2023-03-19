@@ -8506,3 +8506,17 @@ void operator delete[]( void *p ) {
 #endif	// #else #ifdef ID_DEBUG_MEMORY
 #endif	// #if defined(ID_REDIRECT_NEWDELETE) || defined(_RV_MEM_SYS_SUPPORT)
 // RAVEN END
+
+
+//CUSTOM
+/*
+void timerMaker() {
+	//float timer = gameLocal.time * 1000;
+	int timer = 10;
+	
+	//idUserInterface* hud;
+	gameLocal.GetLocalPlayer()->hud->SetStateInt("timer", timer);
+	//hud = gameLocal.GetDemoHud();
+	//hud->SetStateInt("timer", timer);
+}
+*/

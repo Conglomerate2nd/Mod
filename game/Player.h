@@ -1156,6 +1156,8 @@ private:
 	
 	//Custom
 	void					BackStep						();
+	void					timerMaker						(idUserInterface* hud);
+	//void					UpdateHudTimer					(idUserInterface* _mphud);
  	CLASS_STATES_PROTOTYPE( idPlayer );
 };
 

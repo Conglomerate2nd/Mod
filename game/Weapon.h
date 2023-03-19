@@ -432,6 +432,12 @@ private:
 	// multiplayer hitscans
 	int						hitscanAttackDef;
 
+
+	//ADDED
+	public:
+	int					chargeTime;
+	int					chargeDelay;
+	//void				Upgrade(void);
 	CLASS_STATES_PROTOTYPE ( rvWeapon );
 };
 
