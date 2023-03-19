@@ -14157,7 +14157,7 @@ void idPlayer::timerMaker(idUserInterface* hud) {
 	//gameLocal.GetLocalPlayer()->hud->SetStateInt("timer", timer);
 	//hud = gameLocal.GetDemoHud();
 	//hud->SetStateInt("timer", timer);
-	hud->SetStateInt("timer1", minute);
+	hud->SetStateInt("timer1", minute);//incorrect and irrelevant
 	hud->SetStateInt("timer2", second);
 	hud->SetStateInt("timer3", gameLocal.GetTime());
 	DrawHUD(hud);

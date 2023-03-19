@@ -335,12 +335,17 @@ stateResult_t rvWeaponBlaster::State_Idle ( const stateParms_t& parms ) {
 rvWeaponBlaster::State_Charge
 ================
 */
+int shotfired = 0;
+int required = 2;
 stateResult_t rvWeaponBlaster::State_Charge ( const stateParms_t& parms ) {
 	enum {
 		CHARGE_INIT,
 		CHARGE_WAIT,
 	};	
 	//Upgrade();
+	if (shotfired > required) {
+		chargeTime = 0;
+	}
 	switch ( parms.stage ) {
 		case CHARGE_INIT:
 			viewModel->SetShaderParm ( BLASTER_SPARM_CHARGEGLOW, chargeGlow[2] );
@@ -405,7 +410,10 @@ stateResult_t rvWeaponBlaster::State_Charged ( const stateParms_t& parms ) {
 rvWeaponBlaster::State_Fire
 ================
 */
+
+
 stateResult_t rvWeaponBlaster::State_Fire ( const stateParms_t& parms ) {
+	shotfired = shotfired + 1;
 	enum {
 		FIRE_INIT,
 		FIRE_WAIT,
